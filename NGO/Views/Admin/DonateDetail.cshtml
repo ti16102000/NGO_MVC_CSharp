@@ -1,0 +1,150 @@
+﻿@model NGO.Models.EntityModels.Donate
+@{
+    ViewBag.Title = "DonateDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.Category> lsCate = ViewBag.cate;
+    List<NGO.Models.EntityModels.UserDonate> lsUD = ViewBag.ud;
+}
+
+<a href="@Url.Action("ListDonate")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:left;">
+    <i class="fa fa-arrow-left"></i> List Donate
+</a>
+<div class="container-fluid" style="min-height:500px;background-color:white;margin-top:55px;">
+    <h2>Donate Name: @Model.DonateName</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Donate</a></li>
+        <li><a data-toggle="tab" href="#menu1">Fundraising user list</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane in active" style="display:block">
+            <section class="panel">
+                <header class="panel-heading">
+                    Edit Donate
+                </header>
+                <form action="@Url.Action("UpdateDonate")" method="POST" enctype="multipart/form-data">
+                    <div class="panel-body">
+                        <div class="position-center">
+                            <div class="form-group">
+                                <label for="">Donate Name:</label>
+                                <input type="hidden" value="@Model.ID" name="ID" />
+                                <input type="text" class="form-control" name="DonateName" value="@Model.DonateName" maxlength="200" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Start Day:</label>
+                                <input type="date" class="form-control" name="StartDay" id="startday" value="@(Model.StartDay.ToString("yyyy/MM/dd"))" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">End Day:</label>
+                                <input type="date" class="form-control" name="EndDay" id="endday" value="@(Model.EndDay.ToString("yyyy/MM/dd"))" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Category:</label>
+                                <select name="CateID">
+                                    <option value="@Model.CateID">@Model.Category.CateName</option>
+                                    @foreach (var item in lsCate.Where(w => w.ID != Model.CateID))
+                                    {
+                                        <option value="@item.ID">@item.CateName</option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Donate Content:</label>
+                                <textarea name="DonateContent" id="Description">@Model.DonateContent</textarea>
+                                <script>CKEDITOR.replace("Description")</script>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Hide:</label>
+                                <input type="checkbox" id="cbHide" style="width:20px;height:20px;" />
+                                <input type="hidden" name="DonateHide" id="cbHideValue" value="@(Model.DonateHide==true?"True":"False")" />
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-info" id="btnSubmit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div id="menu1" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Type Card</th>
+                                    <th>Total Money</th>
+                                    <th>Date Create</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsUD)
+                                {
+                                <tr>
+                                    <td>@item.User.UserName</td>
+                                    <td>@item.TypeCard</td>
+                                    <td>@item.Money</td>
+                                    <td>@item.DateCreate.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                    <td>
+                                        <a href="@Url.Action("UserDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+            var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2='@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2);
+            }
+            $('.nav>li>a').click(function () {
+                $('.tab-pane').hide();
+                var id = $(this).attr("href");
+                $(id).show();
+            });
+            function DisableBtn(boolean) {
+                $("#btnSubmit").attr("disabled", boolean);
+            }
+            
+            $('#endday').change(function () {
+                var start = new Date(Date.parse($("#startday").val()));
+                var end = new Date(Date.parse($("#endday").val()));
+                if (end < start) {
+                    alertify.error("End day must be greater than start day!");
+                    DisableBtn(true);
+                }
+                else {
+                    DisableBtn(false);
+                }
+            });
+            if ($('#cbHideValue').val() == "True") {
+                $("#cbHide").prop("checked", true);
+            }
+            $("#cbHide").change(function () {
+                $("#cbHide").is(":checked") ? $("#cbHideValue").val("True") : $("#cbHideValue").val("False");
+            })
+        });
+
+
+    </script>
+}

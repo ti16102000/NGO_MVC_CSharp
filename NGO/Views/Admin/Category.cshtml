@@ -1,0 +1,67 @@
+﻿@model List<NGO.Models.EntityModels.Category>
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="panel">
+    <header class="panel-heading">
+        Create Category
+    </header>
+    <form action="@Url.Action("CreateCategory")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <label for="">Category Name:</label>
+                    <input type="text" class="form-control" name="CateName" maxlength="200" required>
+                </div>
+                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List Category
+        </div>
+
+        <div class="table-responsive" style="height:500px;overflow:auto;">
+
+            <table class="table table-striped b-t b-light">
+                <thead>
+                    <tr>
+                        <th>Name category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CateName</td>
+                            <td><a href="@Url.Action("EditCate",new { id=item.ID})">Edit</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+    $(function () {
+        var msg1 = '@TempData["success"]';
+        var msg2 = '@TempData["error"]';
+        if (msg1 != '') {
+            alertify.success(msg1); //display notify
+        }
+        if (msg2 != '') {
+            alertify.error(msg2)
+        }
+    });
+    </script>
+}
+

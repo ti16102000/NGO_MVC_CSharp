@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6f4efaf03a3a4f03bd7ac41cce438ed5" Name="Diagram1">
+        <EntityTypeShape EntityType="NGOModel.AboutUs" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.Category" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.Donate" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.Program" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.ProgramImage" Width="1.5" PointX="12.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.Role" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.TypeProgram" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.User" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NGOModel.UserDonate" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="NGOModel.FK_Donate_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="NGOModel.FK_UserDonate_Donate" ManuallyRouted="false" />
+        <AssociationConnector Association="NGOModel.FK_Program_TypeProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="NGOModel.FK_ProgramImage_Program" ManuallyRouted="false" />
+        <AssociationConnector Association="NGOModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="NGOModel.FK_UserDonate_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NGOModel.Partner" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="NGOModel.UserQuestion" Width="1.5" PointX="9.375" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

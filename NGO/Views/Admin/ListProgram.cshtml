@@ -1,0 +1,112 @@
+﻿@model List<NGO.Models.EntityModels.Program>
+@{
+    ViewBag.Title = "ListProgram";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.Program> lsHide = ViewBag.hide;
+}
+
+<div class="container-fluid" style="min-height:500px;background-color:white;margin-top:55px;">
+    <a href="@Url.Action("Program")">Create New Program</a>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Display</a></li>
+        <li><a data-toggle="tab" href="#menu1">Hide</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane in active">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th>Program Name</th>
+                                    <th>Type Name</th>
+                                    <th>Hide</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ProName</td>
+                                        <td>@item.TypeProgram.TypeName</td>
+                                        <td>@(item.ProHide == true ? "Yes" : "No")</td>
+                                        <td>
+                                            <a href="@Url.Action("ProgramDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableHide">
+                            <thead>
+                                <tr>
+                                    <th>Program Name</th>
+                                    <th>Type Name</th>
+                                    <th>Hide</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsHide)
+                                {
+                                    <tr>
+                                        <td>@item.ProName</td>
+                                        <td>@item.TypeProgram.TypeName</td>
+                                        <td>@(item.ProHide == true ? "Yes" : "No")</td>
+                                        <td>
+                                            <a href="@Url.Action("ProgramDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+            $('#tableHide').DataTable();
+            $('.nav>li>a').click(function () {
+                $('.tab-pane').hide();
+                var id = $(this).attr("href");
+                $(id).show();
+            });
+            var msg1 = '@TempData["success"]';
+            var msg2 = '@TempData["error"]';
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            if (msg2 != '') {
+                alertify.error(msg2)
+            }
+
+        });
+    </script>
+}
+

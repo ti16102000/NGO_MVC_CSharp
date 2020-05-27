@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "ListDonate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.Donate> lsUp = ViewBag.up;
+    List<NGO.Models.EntityModels.Donate> lsOn = ViewBag.on;
+    List<NGO.Models.EntityModels.Donate> lsEnd = ViewBag.end;
+    List<NGO.Models.EntityModels.Donate> lsHide = ViewBag.hide;
+}
+
+<div class="container-fluid" style="min-height:500px;background-color:white;margin-top:55px;">
+    <a href="@Url.Action("Donate")">Create New Donate</a>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Upcoming</a></li>
+        <li><a data-toggle="tab" href="#menu1">Ongoing</a></li>
+        <li><a data-toggle="tab" href="#menu2">Ended</a></li>
+        <li><a data-toggle="tab" href="#menu3">Hide</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane in active">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Upcoming
+
+                    </div>
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableUpcoming">
+                            <thead>
+                                <tr>
+                                    <th>Donate Name</th>
+                                    <th>Category Name</th>
+                                    <th>Start Day</th>
+                                    <th>End Day</th>
+                                    <th>Hide</th>
+                                    <th>Total Money</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsUp)
+                                {
+                                <tr>
+                                    <td>@item.DonateName</td>
+                                    <td>@item.Category.CateName</td>
+                                    <td>@item.StartDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                    <td>@item.EndDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                    <td>@(item.DonateHide == true ? "Yes" : "No")</td>
+                                    <td>@item.TotalMoney</td>
+                                    <td>
+                                        <a href="@Url.Action("DonateDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Ongoing
+
+                    </div>
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableOngoing">
+                            <thead>
+                                <tr>
+                                    <th>Donate Name</th>
+                                    <th>Category Name</th>
+                                    <th>Start Day</th>
+                                    <th>End Day</th>
+                                    <th>Hide</th>
+                                    <th>Total Money</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsOn)
+                                {
+                                    <tr>
+                                        <td>@item.DonateName</td>
+                                        <td>@item.Category.CateName</td>
+                                        <td>@item.StartDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@item.EndDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@(item.DonateHide == true ? "Yes" : "No")</td>
+                                        <td>@item.TotalMoney</td>
+                                        <td>
+                                            <a href="@Url.Action("DonateDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu2" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Ended
+
+                    </div>
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableEnded">
+                            <thead>
+                                <tr>
+                                    <th>Donate Name</th>
+                                    <th>Category Name</th>
+                                    <th>Start Day</th>
+                                    <th>End Day</th>
+                                    <th>Hide</th>
+                                    <th>Total Money</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsEnd)
+                                {
+                                    <tr>
+                                        <td>@item.DonateName</td>
+                                        <td>@item.Category.CateName</td>
+                                        <td>@item.StartDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@item.EndDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@(item.DonateHide == true ? "Yes" : "No")</td>
+                                        <td>@item.TotalMoney</td>
+                                        <td>
+                                            <a href="@Url.Action("DonateDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu3" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Hide
+
+                    </div>
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableHide">
+                            <thead>
+                                <tr>
+                                    <th>Donate Name</th>
+                                    <th>Category Name</th>
+                                    <th>Start Day</th>
+                                    <th>End Day</th>
+                                    <th>Total Money</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsHide)
+                                {
+                                    <tr>
+                                        <td>@item.DonateName</td>
+                                        <td>@item.Category.CateName</td>
+                                        <td>@item.StartDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@item.EndDay.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                        <td>@item.TotalMoney</td>
+                                        <td>
+                                            <a href="@Url.Action("DonateDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#tableUpcoming').DataTable();
+            $('#tableOngoing').DataTable();
+            $('#tableEnded').DataTable();
+            $('#tableHide').DataTable();
+            $('.nav>li>a').click(function () {
+                $('.tab-pane').hide();
+                var id = $(this).attr("href");
+                $(id).show();
+            });
+            var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2='@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2);
+            }
+        });
+
+
+    </script>
+}

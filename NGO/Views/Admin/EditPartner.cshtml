@@ -1,0 +1,65 @@
+﻿@model NGO.Models.EntityModels.Partner
+@{
+    ViewBag.Title = "EditPartner";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("ListPartner")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:left;">
+    List Partner <i class="fa fa-arrow-left"></i>
+</a>
+<section class="panel" style="margin-top:55px;">
+    <header class="panel-heading">
+        Create Partner
+    </header>
+    <form action="@Url.Action("UpdatePartner")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <label for="">Partner Name:</label>
+                    <input type="hidden" value="@Model.ID" name="ID" />
+                    <input type="text" class="form-control" name="PartnerName" value="@Model.PartnerName" maxlength="200" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Partner Link:</label>
+                    <input type="text" class="form-control" name="PartnerLink" value="@Model.PartnerLink" maxlength="200" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Image Partner:</label>
+                    <div id="frameImg">
+                        <img src="~/Images/@Model.PartnerImage" id="showImg" style="width:300px;height:250px;" />
+                    </div>
+                    <input type="file" name="imgPartner" id="selectImg" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="">Active:</label>
+                    <input type="checkbox" id="cbActive" style="width:20px;height:20px;" />
+                    <input type="hidden" name="PartnerActive" id="cbActiveValue" value="@(Model.PartnerActive==true?"True":"False")" />
+                </div>
+                <button type="submit" name="submit" class="btn btn-info" id="btnSubmit">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section scripts{
+
+    <script>
+        $(function () {
+            var msg2='@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2);
+            }
+            if ($('#cbActiveValue').val() == "True") {
+                $("#cbActive").prop("checked", true);
+            }
+            $("#cbActive").change(function () {
+                $("#cbActive").is(":checked") ? $("#cbActiveValue").val("True") : $("#cbActiveValue").val("False");
+            })
+            $('#selectImg').change(function (event) {
+                var tmppath = URL.createObjectURL(event.target.files[0]);
+                $('#showImg').fadeIn("fast").attr("src", tmppath);
+            })
+        });
+
+
+    </script>
+}

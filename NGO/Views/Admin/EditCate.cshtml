@@ -1,0 +1,35 @@
+﻿@model NGO.Models.EntityModels.Category
+@{
+    ViewBag.Title = "EditCate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="panel">
+    <header class="panel-heading">
+        Update Category
+    </header>
+    <form action="@Url.Action("UpdateCate")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <label for="">Category Name:</label>
+                    <input type="hidden" value="@Model.ID" name="ID" />
+                    <input type="text" class="form-control" name="CateName" value="@Model.CateName" maxlength="200" required>
+                </div>
+                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section scripts{
+
+    <script>
+    $(function () {
+        var msg2 = '@TempData["error"]';
+        if (msg2 != '') {
+            alertify.error(msg2)
+        }
+    });
+    </script>
+}

@@ -1,0 +1,56 @@
+﻿@model List<NGO.Models.EntityModels.AboutUs>
+@{
+    ViewBag.Title = "ListAbout";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List About Us &nbsp; <a class="agile-icon" href="@Url.Action("AboutUs")"><i class="fa fa-plus-circle"></i></a>
+        </div>
+
+        <div class="table-responsive"  style="padding:20px;">
+
+            <table class="table table-striped b-t b-light" id="mytable">
+                <thead>
+                    <tr>
+                        <th>About Name</th>
+                        <th>Hide</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AboutName</td>
+                            <td>@(item.AboutHide == true ? "Yes" : "No")</td>
+                            <td>
+                                <a href="@Url.Action("EditAbout",new { id=item.ID})">Edit</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+            var msg1 = '@TempData["success"]';
+            var msg2 = '@TempData["error"]';
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            if (msg2 != '') {
+                alertify.error(msg2)
+            }
+
+        });
+    </script>
+}

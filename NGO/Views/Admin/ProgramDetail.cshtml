@@ -1,0 +1,175 @@
+﻿@model NGO.Models.EntityModels.Program
+@{
+    ViewBag.Title = "ProgramDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.TypeProgram> lsType = ViewBag.type;
+    NGO.Models.EntityModels.ProgramImage imgMain = ViewBag.imgMain;
+    List<NGO.Models.EntityModels.ProgramImage> lsImg = ViewBag.lsImg;
+}
+
+<a href="@Url.Action("ListProgram")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:left;">
+    <i class="fa fa-arrow-left"></i> List Program 
+</a>
+
+<div class="container-fluid" style="min-height:500px;background-color:white;margin-top:55px;">
+    <h2>Program Name: @Model.ProName</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Program</a></li>
+        <li><a data-toggle="tab" href="#menu1">Images</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane in active" style="display:block">
+            <section class="panel">
+                <header class="panel-heading">
+                    Edit Program
+                </header>
+                <form action="@Url.Action("UpdateProgram")" method="POST" enctype="multipart/form-data">
+                    <div class="panel-body">
+                        <div class="position-center">
+                            <div class="form-group">
+                                <label for="">Program Name:</label>
+                                <input type="hidden" value="@Model.ID" name="ID" />
+                                <input type="text" class="form-control" name="ProName" value="@Model.ProName" maxlength="200" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Type Program:</label>
+                                <select name="TypeID">
+                                    <option value="@Model.TypeID">@Model.TypeProgram.TypeName</option>
+                                    @foreach (var item in lsType.Where(w => w.ID != Model.TypeID))
+                                    {
+                                        <option value="@item.ID">@item.TypeName</option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Program Content:</label>
+                                <textarea name="ProContent" id="Description">@Model.ProContent</textarea>
+                                <script>CKEDITOR.replace("Description")</script>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Hide:</label>
+                                <input type="checkbox" id="cbHide" style="width:20px;height:20px;" />
+                                <input type="hidden" name="ProHide" id="cbHideValue" value="@(Model.ProHide==true?"True":"False")" />
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div id="menu1" class="tab-pane">
+            <section class="panel">
+                <header class="panel-heading">
+                    Insert Image
+                </header>
+                <form action="@Url.Action("InsertImg")" method="POST" enctype="multipart/form-data">
+                    <div class="panel-body">
+                        <div class="position-center">
+                            <div class="form-group">
+                                <label for="">File Name:</label>
+                                <input type="hidden" value="@Model.ID" name="ProID" />
+                                <div id="frameImg">
+                                    <img src="#" id="showImg" style="width:300px;height:250px;" />
+                                </div>
+                                <input type="file" name="imgMain" id="selectImg" accept="image/*" required>
+                            </div>
+                            @if (imgMain== null)
+                            {
+                                <div class="form-group">
+                                    <label for="">Image Main:</label>
+                                    <input type="checkbox" id="cbMain" style="width:20px;height:20px;" />
+                                    <input type="hidden" name="ImgMain" id="cbMainValue" value="False" />
+                                </div>
+                            }
+
+                            <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            @if (imgMain != null)
+            {
+                <div>
+                    <img src="@Url.Content("~/Images/")@imgMain.ImgFileName" style="width:250px;height:200px;" />
+                    <a href="@Url.Action("CheckMain",new { id=imgMain.ID,idPro=imgMain.ProID})" class="btn btn-primary">Uncheck Image Main</a>
+                </div>
+            }
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Images
+
+                    </div>
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsImg)
+                                {
+                                    <tr>
+                                        <td><img src="@Url.Content("~/Images/")@item.ImgFileName" style="width:250px;height:200px;" /></td>
+                                        <td>
+                                            @if (imgMain == null)
+                                            {
+                                            <a href="@Url.Action("CheckMain",new { id=item.ID,idPro=item.ProID})" class="btn btn-success">Check Image Main</a>
+                                            }
+                                            <a href="@Url.Action("DelImg",new { id=item.ID})" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+            $('.nav>li>a').click(function () {
+                $('.tab-pane').hide();
+                var id = $(this).attr("href");
+                $(id).show();
+            });
+            if ($('#cbHideValue').val() == "True") {
+                $('#cbHide').prop("checked", true);
+            }
+            var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2='@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2);
+            }
+            $("#cbHide").change(function () {
+                $("#cbHide").is(":checked") ? $("#cbHideValue").val("True") : $("#cbHideValue").val("False");
+            })
+            $("#cbMain").change(function () {
+                $("#cbMain").is(":checked") ? $("#cbMainValue").val("True") : $("#cbMainValue").val("False");
+            })
+            $('#selectImg').change(function (event) {
+                var tmppath = URL.createObjectURL(event.target.files[0]);
+                $('#showImg').fadeIn("fast").attr("src", tmppath);
+            })
+        });
+
+
+    </script>
+}

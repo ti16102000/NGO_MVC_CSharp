@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Administrator</title>
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- bootstrap-css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/")css/bootstrap.min.css">
+    <!-- //bootstrap-css -->
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/Content/Admin/")css/style.css" rel='stylesheet' type='text/css' />
+    <link href="@Url.Content("~/Content/Admin/")css/style-responsive.css" rel="stylesheet" />
+    <!-- font CSS -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/")css/font.css" type="text/css" />
+    <link href="@Url.Content("~/Content/Admin/")css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/")css/morris.css" type="text/css" />
+    <!-- calendar -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/")css/monthly.css">
+    <!-- //calendar -->
+    <!-- //font-awesome icons -->
+    <script src="@Url.Content("~/Content/Admin/")js/jquery2.0.3.min.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/raphael-min.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/morris.js"></script>
+    <script src="https://kit.fontawesome.com/d93a4b936d.js" crossorigin="anonymous"></script>
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scriptsHeader", required: false)
+</head>
+<body>
+    <section id="container">
+        <!--header start-->
+        <header class="header fixed-top clearfix">
+            <!--logo start-->
+            <div class="brand">
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars"></div>
+                </div>
+            </div>
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <div class="leftside-navigation">
+                    <ul class="sidebar-menu" id="nav-accordion">
+                        <li>
+                            <a href="@Url.Action("Index")">
+                                <i class="fas fa-donate"></i>
+                                <span>Donate Today</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("UserQuestion")">
+                                <i class="far fa-question-circle"></i>
+                                <span>Help Centre</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Category")">
+                                <i class="fas fa-th-list"></i>
+                                <span>Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("TypeProgram")">
+                                <i class="fas fa-align-left"></i>
+                                <span>Type Program</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ListProgram")">
+                                <i class="fab fa-elementor"></i>
+                                <span>Program</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ListDonate")">
+                                <i class="fas fa-hand-holding-usd"></i>
+                                <span>Donate</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ListUser")">
+                                <i class="fas fa-users"></i>
+                                <span>User</span>
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="@Url.Action("ListAbout")">
+                                <i class="fas fa-user-edit"></i>
+                                <span>About Us</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ContactUs")">
+                                <i class="fas fa-address-card"></i>
+                                <span>Contact</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ListPartner")">
+                                <i class="fas fa-handshake"></i>
+                                <span>Partner</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LogOut")">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+            <!-- footer -->
+            <div class="footer">
+                <div class="wthree-copyright">
+                    <p>© 2020 Admin. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+                </div>
+            </div>
+            <!-- / footer -->
+        </section>
+        <!--main content end-->
+    </section>
+    @RenderSection("scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/bootstrap.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/scripts.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/jquery.slimscroll.js"></script>
+    <script src="@Url.Content("~/Content/Admin/")js/jquery.nicescroll.js"></script>
+    <script src="~/Scripts/alertify.min.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
+    <script src="@Url.Content("~/Content/Admin/")js/jquery.scrollTo.js"></script>
+    <!-- morris JavaScript -->
+    <script>
+        $(document).ready(function () {
+            //BOX BUTTON SHOW AND CLOSE
+            jQuery('.small-graph-box').hover(function () {
+                jQuery(this).find('.box-button').fadeIn('fast');
+            }, function () {
+                jQuery(this).find('.box-button').fadeOut('fast');
+            });
+            jQuery('.small-graph-box .box-close').click(function () {
+                jQuery(this).closest('.small-graph-box').fadeOut(200);
+                return false;
+            });
+
+
+        });
+    </script>
+
+
+
+</body>
+</html>
+

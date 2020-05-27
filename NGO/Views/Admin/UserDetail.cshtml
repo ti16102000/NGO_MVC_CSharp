@@ -1,0 +1,119 @@
+﻿@model NGO.Models.EntityModels.User
+@{
+    ViewBag.Title = "UserDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.UserDonate> ls = ViewBag.donate;
+}
+<a href="@Url.Action("ListUser")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:left;">
+    List User <i class="fa fa-arrow-left"></i>
+</a>
+<div class="container-fluid" style="min-height:500px;margin-top:55px;">
+    <div class="row">
+        <div class="col-md-4">
+            <section class="panel">
+                <header class="panel-heading">
+                   Infomation
+                </header>
+                <div class="panel-body">
+                    <div class="position-center">
+                        <div class="form-group">
+                            <label for="">User Name:</label>
+                            <span>@Model.UserName</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">User Mail: </label>
+                            <span>@Model.UserMail</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">User Gender:</label>
+                            <span>@(Model.UserGender == true ? "Female" : "Male")</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">User DOB: </label>
+                            <span>@Model.UserDOB</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Money Donate: </label>
+                            <span>@Model.MoneyDonate</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">User Active: </label>
+                            <span>@(Model.UserActive == true ? "Yes" : "No")</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">User Active: </label>
+                            <span>@(Model.UserVolunteer == true ? "Yes" : "No")</span>
+                        </div>
+                        <div class="form-group">
+                            <a href="@Url.Action("CheckActive",new { id=Model.ID})" class="btn btn-info" style="margin-bottom:15px;">@(Model.UserActive == true ? "Unactive" : "Active")</a> <br />
+                            <a href="@Url.Action("CheckVolunteer",new { id=Model.ID})" class="btn btn-primary">@(Model.UserVolunteer == true ? "Uncheck Volunteer" : "Check Volunteer")</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+        <div class="col-md-8">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List Donate
+                    </div>
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th>Donate Name</th>
+                                    <th>Category</th>
+                                    <th>Money</th>
+                                    <th>Date Create</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ls)
+                                {
+                                    <tr>
+                                        <td>@item.Donate.DonateName</td>
+                                        <td>@item.Donate.Category.CateName</td>
+                                        <td>@item.Money</td>
+                                        <td>@item.DateCreate</td>
+                                        <td>
+                                            <a href="@Url.Action("DonateDetail",new { id=item.DonateID})" class="btn btn-info">Donate Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+            var msg1 = '@TempData["success"]';
+            var msg2 = '@TempData["error"]';
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            if (msg2 != '') {
+                alertify.error(msg2)
+            }
+
+        });
+    </script>
+}
+

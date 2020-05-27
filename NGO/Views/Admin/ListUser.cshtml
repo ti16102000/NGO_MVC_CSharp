@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "ListUser";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<NGO.Models.EntityModels.User> lsActive = ViewBag.active;
+    List<NGO.Models.EntityModels.User> lsUnActive = ViewBag.unactive;
+    List<NGO.Models.EntityModels.User> lsVolunteer = ViewBag.volunteer;
+}
+
+<div class="container-fluid" style="min-height:500px;">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Active</a></li>
+        <li><a data-toggle="tab" href="#menu1">Volunteer</a></li>
+        <li><a data-toggle="tab" href="#menu2">Unactive</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane in active">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableActive">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>User Mail</th>
+                                    <th>Money Donate</th>
+                                    <th>Date Create Account</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsActive)
+                                {
+                                    <tr>
+                                        <td>@item.UserName</td>
+                                        <td>@item.UserMail</td>
+                                        <td>@item.MoneyDonate</td>
+                                        <td>@item.UserDateCreate</td>
+                                        <td>
+                                            <a href="@Url.Action("UserDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableVolunteer">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>User Mail</th>
+                                    <th>Money Donate</th>
+                                    <th>Date Create Account</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsVolunteer)
+                                {
+                                    <tr>
+                                        <td>@item.UserName</td>
+                                        <td>@item.UserMail</td>
+                                        <td>@item.MoneyDonate</td>
+                                        <td>@item.UserDateCreate</td>
+                                        <td>
+                                            <a href="@Url.Action("UserDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu2" class="tab-pane">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+
+                    <div class="table-responsive" style="padding:20px;">
+
+                        <table class="table table-striped" id="tableUnactive">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>User Mail</th>
+                                    <th>Money Donate</th>
+                                    <th>Date Create Account</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lsUnActive)
+                                {
+                                    <tr>
+                                        <td>@item.UserName</td>
+                                        <td>@item.UserMail</td>
+                                        <td>@item.MoneyDonate</td>
+                                        <td>@item.UserDateCreate</td>
+                                        <td>
+                                            <a href="@Url.Action("UserDetail",new { id=item.ID})" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#tableActive').DataTable();
+            $('#tableVolunteer').DataTable();
+            $('#tableUnactive').DataTable();
+            $('.nav>li>a').click(function () {
+                $('.tab-pane').hide();
+                var id = $(this).attr("href");
+                $(id).show();
+            });
+            var msg1 = '@TempData["success"]';
+            var msg2 = '@TempData["error"]';
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            if (msg2 != '') {
+                alertify.error(msg2)
+            }
+
+        });
+    </script>
+}
+

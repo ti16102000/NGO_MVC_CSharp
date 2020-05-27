@@ -1,0 +1,103 @@
+﻿@model List<NGO.Models.EntityModels.Category>
+@{
+    ViewBag.Title = "Donate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("ListDonate")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:right;">
+    List Donate <i class="fa fa-arrow-right"></i>
+</a>
+<section class="panel" style="margin-top:55px;">
+    <header class="panel-heading">
+        Create Donate
+    </header>
+    <form action="@Url.Action("CreateDonate")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <label for="">Donate Name:</label>
+                    <input type="text" class="form-control" name="DonateName" maxlength="200" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Start Day:</label>
+                    <input type="date" class="form-control" name="StartDay" id="startday" required>
+                </div>
+                <div class="form-group">
+                    <label for="">End Day:</label>
+                    <input type="date" class="form-control" name="EndDay" id="endday" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Category:</label>
+                    <select name="CateID">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.ID">@item.CateName</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Donate Content:</label>
+                    <textarea name="DonateContent" id="Description"></textarea>
+                    <script>CKEDITOR.replace("Description")</script>
+                </div>
+                <div class="form-group">
+                    <label for="">Hide:</label>
+                    <input type="checkbox" id="cbHide" style="width:20px;height:20px;" />
+                    <input type="hidden" name="DonateHide" id="cbHideValue" value="False" />
+                </div>
+                <button type="submit" name="submit" class="btn btn-info" id="btnSubmit">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section scripts{
+
+    <script>
+        $(function () {
+            var msg2='@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2);
+            }
+            function DisableBtn(boolean) {
+                $("#btnSubmit").attr("disabled", boolean);
+            }
+            $('#startday').change(function () {
+                var curDay = new Date();
+                var start = new Date(Date.parse($("#startday").val()));
+                if (start < curDay) {
+                    alertify.error("Start day must be greater than current day!");
+                    DisableBtn(true);
+                } else {
+                    DisableBtn(false);
+                }
+            });
+            $('#endday').change(function () {
+                var start = new Date(Date.parse($("#startday").val()));
+                var end = new Date(Date.parse($("#endday").val()));
+                if (end < start) {
+                    alertify.error("End day must be greater than start day!");
+                    DisableBtn(true);
+                }
+                else {
+                    DisableBtn(false);
+                }
+            });
+            $("#btnSubmit").click(function (e) {
+                var curDay = new Date();
+                var start = new Date(Date.parse($("#startday").val()));
+                var end = new Date(Date.parse($("#endday").val()));
+                if (start < curDay || end < start) {
+                    e.preventDefault();
+                    alertify.error("Invalid start/end day!");
+                }
+            });
+            $("#cbHide").change(function () {
+                $("#cbHide").is(":checked") ? $("#cbHideValue").val("True") : $("#cbHideValue").val("False");
+            })
+        });
+
+
+    </script>
+}
+
