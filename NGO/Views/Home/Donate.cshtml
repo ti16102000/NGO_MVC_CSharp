@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Donate";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<NGO.Models.EntityModels.Donate> lsUp = ViewBag.up;
+    List<NGO.Models.EntityModels.Donate> lsOn = ViewBag.on;
+    List<NGO.Models.EntityModels.Donate> lsEnd = ViewBag.end;
 }
 <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <!-- contact page breadcrumns -->
@@ -32,18 +35,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>0</td>
-                        <td>
-                            <form>
-                                <input type="number" name="name" value="" min="5" max="1000"/>
-                                <input type="submit" value="Donate" class="btn btn-default" />
-                            </form>
-                        </td>
-                        <td><a href="#">Detail</a></td>
-                    </tr>
+                    @foreach (var item in lsUp)
+                    {
+                        <tr>
+                            <td>@item.DonateName</td>
+                            <td>@item.Category.CateName</td>
+                            <td>@item.TotalMoney</td>
+                            <td>
+                                <form action="" method="post">
+                                    <input type="hidden" value="@item.ID" name="ID" />
+                                    <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser"/>
+                                    <input type="number" name="name" value="" min="5" max="1000" required/>
+                                    <input type="submit" value="Donate" class="btn btn-default" id="btnDonate"/>
+                                </form>
+                            </td>
+                            <td><a href="@Url.Action("DonateInfomation",new { id=item.ID})">Detail</a></td>
+                        </tr>
+                    }
+
 
                 </tbody>
             </table>
@@ -61,18 +70,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>0</td>
-                        <td>
-                            <form>
-                                <input type="number" name="name" value="" min="5" max="1000" />
-                                <input type="submit" value="Donate" class="btn btn-default" />
-                            </form>
-                        </td>
-                        <td><a href="#">Detail</a></td>
-                    </tr>
+                    @foreach (var item in lsOn)
+                    {
+                        <tr>
+                            <td>@item.DonateName</td>
+                            <td>@item.Category.CateName</td>
+                            <td>@item.TotalMoney</td>
+                            <td>
+                                <form action="" method="post">
+                                    <input type="hidden" value="@item.ID" name="ID" />
+                                    <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser" />
+                                    <input type="number" name="name" value="" min="5" max="1000" required />
+                                    <input type="submit" value="Donate" class="btn btn-default" id="btnDonate" />
+                                </form>
+                            </td>
+                            <td><a href="@Url.Action("DonateInfomation",new { id=item.ID})">Detail</a></td>
+                        </tr>
+                    }
 
                 </tbody>
             </table>
@@ -89,12 +103,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var item in lsEnd)
+                    {
                     <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>0</td>
-                        <td><a href="#">Detail</a></td>
+                        <td>@item.DonateName</td>
+                        <td>@item.Category.CateName</td>
+                        <td>@item.TotalMoney</td>
+                        <td><a href="@Url.Action("DonateInfomation",new { id=item.ID})">Detail</a></td>
                     </tr>
+                    }
 
                 </tbody>
             </table>
@@ -110,6 +127,11 @@
             $('#tableUpcoming').DataTable();
             $('#tableOngoing').DataTable();
             $('#tableEnded').DataTable();
+            $('#btnDonate').click(function () {
+                if ($('#idUser').val() === "") {
+                    alertify.error("Please login to donate!");
+                }
+            });
         });
     </script>
 }

@@ -30,16 +30,10 @@ namespace NGO.Models.DAO
             NGOEntities e = new NGOEntities();
             return e.UserQuestions.Where(w => w.QuesNew == true).OrderBy(o => o.QuesDateCreate).ToList();
         }
-        public static bool DelQues(int id)
+        public static List<UserQuestion> GetQuesReplied()
         {
             NGOEntities e = new NGOEntities();
-            var item = e.UserQuestions.Find(id);
-            e.UserQuestions.Remove(item);
-            if (e.SaveChanges() > 0)
-            {
-                return true;
-            }
-            return false;
+            return e.UserQuestions.Where(w => w.QuesNew == false).OrderByDescending(o=>o.AnswerDateCreate).ToList();
         }
         public static bool InsertAns(int id,string answer)
         {

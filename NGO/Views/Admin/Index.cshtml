@@ -1,8 +1,50 @@
-﻿
+﻿@model List<NGO.Models.EntityModels.UserDonate>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List Donate
+        </div>
+        <div class="table-responsive" style="padding:20px;">
 
+            <table class="table table-striped" id="mytable">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Donate Name</th>
+                        <th>Type Card</th>
+                        <th>Money</th>
+                        <th>Date Create</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><a href="@Url.Action("UserDetail",new { id=item.UserID})">@item.User.UserName</a></td>
+                            <td><a href="@Url.Action("DonateDetail",new { id=item.DonateID})">@item.Donate.DonateName</a></td>
+                            <td>@item.TypeCard</td>
+                            <td>@item.Money</td>
+                            <td>@item.DateCreate</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#mytable').DataTable();
+
+        });
+    </script>
+}

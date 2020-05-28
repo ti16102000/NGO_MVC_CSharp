@@ -1,7 +1,9 @@
-﻿
+﻿@model NGO.Models.EntityModels.Program
 @{
-    ViewBag.Title = "ProgramInfomation";
+    ViewBag.Title = Model.ProName;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    NGO.Models.EntityModels.ProgramImage imgMain = ViewBag.imgMain;
+    List<NGO.Models.EntityModels.ProgramImage> lsImg = ViewBag.lsImg;
 }
 
 <!-- contact page breadcrumns -->
@@ -10,7 +12,7 @@
     <ol class="breadcrumb breadcrumb-padding">
         <li class="breadcrumb-item"><a href="@Url.Action("Index")">Home</a></li>
         <li class="breadcrumb-item"><a href="@Url.Action("Program")">Program</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Program Infomation: </li>
+        <li class="breadcrumb-item active" aria-current="page">Program Infomation: @Model.ProName</li>
     </ol>
 </nav>
 <!-- contact page breadcrumns -->
@@ -20,41 +22,39 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
-                    <h4 class="section-title">Donate Name</h4>
+                    <h4 class="section-title">@Model.ProName</h4>
                     <p class="text-center">
-                        Category Name
+                        @Model.TypeProgram.TypeName
                     </p>
                 </div>
             </div>
             <div style="margin-top:20px;margin-bottom:20px;">
                 <!--Content-->
                 <p>
-                    Khi sinh ra, bản năng sinh tồn là cái mà mỗi con vật có được. Chúng có thể đứng lên bằng chính đôi chân mình có thể chạy nhảy. Tạo hoá đã ưu ái ban cho chúng những khả năng kì diệu đó. Nhưng con người thì khác khi sinh ra tiếng khóc chào đời là tất cả những gì họ có được. Tiếng oa oa cất lên chỉ đơn giản cho mọi người biết một mầm sống mới đã ra đời. Nhưng mầm sống đó sẽ ra sao? Và tương lai của nó sẽ như thế nào. Cuộc sống phía trước là của chính nó và do nó quyết định. Giống như một nhà triết học đã nói: "Mỗi con vật khi sinh ra đều là tất cả những gì nó có. Chỉ có con người là ngay từ thuở lọt lòng thì chẳng là gì cả. Nó làm thế nào thì nó sẽ trở thành như thế ấy, và nó phải làm bằng tự do của chình nó Tôi chỉ có thể trở thành kẻ do chính tôi làm ra".
+                    @Html.Raw(Model.ProContent)
                 </p>
                 <!--Content-->
                 <!--Date Create yyyy/MM/dd-->
-                <span class="fa fa-calendar mr-2"></span>Jan 16, 2020
+                <span class="fa fa-calendar mr-2"></span>@(Model.ProDateCreate.ToString("yyyy/MM/dd"))
                 <!--Date Create yyyy/MM/dd-->
             </div>
             <h4>Some pictures of the program:</h4>
             <div>
                 <div id="imgBig">
                     <!--image Main-->
-                    <img id="imgLarge" src="~/Content/assets/images/about1.png" alt="" style="height:450px;">
+                    <img id="imgLarge" src="~/Images/@imgMain.ImgFileName" alt="" style="height:450px;">
                     <!--image Main-->
                 </div>
                 <div id="slideImg">
                     <div id="owl-wrapper">
                         <!--image Main-->
-                        <img class="imgItem" src="~/Content/assets/images/about1.png" alt="">
+                        <img class="imgItem" src="~/Images/@imgMain.ImgFileName" alt="">
                         <!--image Main-->
                         <!--list Image except image main-->
-                        <img class="imgItem" src="~/Content/assets/images/aptech.jpg" alt="">
-                        <img class="imgItem" src="~/Content/assets/images/about1.png" alt="">
-                        <img class="imgItem" src="~/Content/assets/images/about.png" alt="">
-                        <img class="imgItem" src="~/Content/assets/images/about.png" alt="">
-                        <img class="imgItem" src="~/Content/assets/images/about1.png" alt="">
-                        <img class="imgItem" src="~/Content/assets/images/about.png" alt="">
+                        @foreach (var item in lsImg.Where(w => w.ID != imgMain.ID))
+                        {
+                            <img class="imgItem" src="~/Images/@item.ImgFileName" alt="">
+                        }
                     </div>
                     <div id="controlImg">
                         <div id="btnPrev">

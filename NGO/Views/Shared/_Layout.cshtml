@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="@Url.Content("~/content/")assets/css/style-starter.css">
     <link rel="stylesheet" href="@Url.Content("~/content/")assets/css/mysite.css" media="all" />
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
 </head>
 <body>
     <!-- site header -->
@@ -43,18 +45,25 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="@Url.Action("SignIn")" class="btn btn-primary btn-style">Sign In</a>
-                    </li>
-                    @*<li class="nav-item dropdown">
+                    @if (ViewBag.name==null)
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("SignIn")" class="btn btn-primary btn-style">Sign In</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                User Name
+                                @ViewBag.name
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("PersonalInfo")">Personal Infomation</a>
-                                <a class="dropdown-item" href="#">Log out</a>
+                                <a class="dropdown-item" href="@Url.Action("PersonalInfo",new { id=Session["ID"]})">Personal Infomation</a>
+                                <a class="dropdown-item" href="@Url.Action("LogOut")">Log out</a>
                             </div>
-                        </li>*@
+                        </li>
+                    }
+
                 </ul>
             </div>
         </nav>
@@ -133,6 +142,7 @@
     </script>
     <!-- //move top -->
     <!-- javascript -->
+    <script src="~/Scripts/alertify.min.js"></script>
     <script src="@Url.Content("~/content/")assets/js/jquery-3.3.1.min.js"></script>
 
     <!-- libhtbox -->

@@ -16,16 +16,31 @@
 <div id="signInPage" class="col-md-4">
     <h4 class="text-center section-title">Create new password</h4>
     <div style="margin-top:20px;">
-        <form action="/" method="post">
+        <form action="@Url.Action("CreateNewPwd")" method="post">
             <div>
-                <input type="text" name="" placeholder="Secret Code" class="contact-input"
-                       required maxlength="100" />
+                <input type="text" name="secret" placeholder="Secret Code" class="contact-input" required maxlength="20" />
             </div>
             <div>
-                <input type="password" name="" id="w3lSender" placeholder="New Password" class="contact-input" required maxlength="20" />
+                <input type="hidden" name="mail" value="@ViewBag.mail" />
+                <input type="password" name="newPwd" id="w3lSender" placeholder="New Password" class="contact-input" required maxlength="20" />
             </div>
             <input type="submit" value="Submit" class="btn btn-primary btn-full-width">
         </form>
 
     </div>
 </div>
+@section scripts{
+    <script>
+        $(function () {
+            var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+
+            var msg2 = '@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2); //display notify
+            }
+        });
+    </script>
+}

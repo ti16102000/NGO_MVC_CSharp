@@ -24,6 +24,16 @@ namespace NGO.Models.DAO
         public static Donate GetDonateByID(int id)
         {
             NGOEntities e = new NGOEntities();
+            var d = e.Donates.Find(id);
+            if (d.DonateStatus == 2 && d.EndDay < DateTime.Now)
+            {
+                d.DonateStatus = 3;
+            }
+            else if (d.DonateStatus == 1 && d.StartDay < DateTime.Now)
+            {
+                d.DonateStatus = 2;
+            }
+            e.SaveChanges();
             return e.Donates.Find(id);
         }
         public static List<Donate> GetAllDonateByStt(int stt)
@@ -100,6 +110,11 @@ namespace NGO.Models.DAO
                 }
                 e.SaveChanges();
             }
+        }
+        public static decimal SumMoneyDonate()
+        {
+            NGOEntities e = new NGOEntities();
+            return e.Donates.ToList().Sum(s => s.TotalMoney);
         }
     }
 }

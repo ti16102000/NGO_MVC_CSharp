@@ -1,6 +1,7 @@
 ﻿using NGO.Models.EntityModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -38,6 +39,12 @@ namespace NGO.Models.DAO
         {
             NGOEntities e = new NGOEntities();
             return e.UserDonates.Where(s => s.UserID == id).Sum(s => s.Money);
+        }
+        public static List<UserDonate> GetDonateCurrentDay()
+        {
+            NGOEntities e = new NGOEntities();
+            var currDay = DateTime.Now;
+            return e.UserDonates.Where(w => DbFunctions.TruncateTime(w.DateCreate)== DbFunctions.TruncateTime(currDay)).ToList();
         }
     }
 }

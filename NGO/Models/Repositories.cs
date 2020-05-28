@@ -119,6 +119,10 @@ namespace NGO.Models
         {
             return ProgramImageDAO.GetImgByID(id);
         }
+        public static List<ProgramImage> GetListImgMain()
+        {
+            return ProgramImageDAO.GetListImgMain();
+        }
         #endregion
 
         #region About Us
@@ -228,6 +232,10 @@ namespace NGO.Models
         {
             return DonateDAO.UpdateDonate(d);
         }
+        public static decimal GetSumMoneyDonate()
+        {
+            return DonateDAO.SumMoneyDonate();
+        }
         #endregion
 
         #region User Donate
@@ -251,6 +259,10 @@ namespace NGO.Models
         {
             return UserDonateDAO.GetTotalDonateByUserID(id);
         }
+        public static List<UserDonate> GetDonateCurrentDay()
+        {
+            return UserDonateDAO.GetDonateCurrentDay();
+        }
 
         #endregion
 
@@ -267,9 +279,9 @@ namespace NGO.Models
         {
             return UserQuestionDAO.GetQuesNew();
         }
-        public static bool DelQues(int id)
+        public static List<UserQuestion> GetQuesReplied()
         {
-            return UserQuestionDAO.DelQues(id);
+            return UserQuestionDAO.GetQuesReplied();
         }
         public static bool InsertAns(int id, string answer)
         {

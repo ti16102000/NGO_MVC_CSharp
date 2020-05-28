@@ -78,7 +78,8 @@ namespace NGO.Models.DAO
         public static bool ChangePwd(string mail,string oldPwd, string newPwd)
         {
             NGOEntities e = new NGOEntities();
-            var user= GetUserLogin(mail, oldPwd);
+            var old = Encrypt.EncryptPasswordMD5(oldPwd);
+            var user= e.Users.SingleOrDefault(s=>s.UserMail==mail && s.UserPwd==old && s.UserActive==true);
             if (user != null)
             {
                 user.UserPwd = Encrypt.EncryptPasswordMD5(newPwd);
@@ -92,7 +93,7 @@ namespace NGO.Models.DAO
         public static bool ForgetPwd(string mail,string newPwd)
         {
             NGOEntities e = new NGOEntities();
-            var user = GetUserByMail(mail);
+            var user = e.Users.SingleOrDefault(s=>s.UserMail==mail && s.UserActive==true);
             if (user != null)
             {
                 user.UserPwd = Encrypt.EncryptPasswordMD5(newPwd);

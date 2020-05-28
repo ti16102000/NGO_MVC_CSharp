@@ -20,13 +20,13 @@
     <div id="login" style="display:block;">
         <h4 class="text-center section-title">Sign In</h4>
         <div style="margin-top:20px;">
-            <form action="/" method="post">
+            <form action="@Url.Action("Login")" method="post">
                 <div>
-                    <input type="email" name="" placeholder="Your Email" class="contact-input"
+                    <input type="email" name="mail" placeholder="Your Email" class="contact-input"
                            required maxlength="100" />
                 </div>
                 <div>
-                    <input type="password" name="" id="w3lSender" placeholder="Your password"
+                    <input type="password" name="pwd" id="w3lSender" placeholder="Your password"
                            class="contact-input" required maxlength="20" />
                     <input type="checkbox" onclick="myFunction()">&nbsp; Show Password
                     <a href="#" class="float-right" data-toggle="modal" data-target="#exampleModal">Forgot Password?</a>
@@ -44,18 +44,18 @@
     <div id="register" style="display:none">
         <h4 class="text-center section-title">Sign Up</h4>
         <div style="margin-top:20px;">
-            <form action="/" method="post">
+            <form action="@Url.Action("RegisterUser")" method="post">
                 <div>
                     <label>Your Name:</label>
-                    <input type="text" name="" class="contact-input" required maxlength="200" />
+                    <input type="text" name="UserName" class="contact-input" required maxlength="200" />
                 </div>
                 <div>
                     <label>Your Email:</label>
-                    <input type="email" name="" class="contact-input" required maxlength="100" />
+                    <input type="email" name="UserMail" class="contact-input" required maxlength="100" />
                 </div>
                 <div id="gender">
                     <label>Gender:</label>
-                    <input type="hidden" value="True" id="genderValue" />
+                    <input type="hidden" value="True" id="genderValue" name="UserGender" />
                     <div class="custom-control custom-radio custom-control-inline" style="margin-left:15px;">
                         <input type="radio" class="custom-control-input" id="customRadio1" name="example1" value="True" checked>
                         <label class="custom-control-label" for="customRadio1">Male</label>
@@ -67,14 +67,14 @@
                 </div>
                 <div>
                     <label>Your Birthday:</label>
-                    <input type="date" name="" class="contact-input" required/>
+                    <input type="date" name="UserDOB" id="dob" class="contact-input" required />
                 </div>
                 <div>
                     <label>Your Password:</label>
-                    <input type="password" name="" id="password" class="contact-input" pattern=".{6,}" title="Six or more characters" maxlength="20" required />
+                    <input type="password" name="UserPwd" id="password" class="contact-input" pattern=".{6,}" title="Six or more characters" maxlength="20" required />
                     <input type="checkbox" id="showPwd">&nbsp; Show Password
                 </div>
-                <input type="submit" value="Submit" class="btn btn-primary btn-full-width">
+                <input type="submit" value="Submit" id="btnRegis" class="btn btn-primary btn-full-width">
                 <div class="text-center" style="margin-top:15px;">
                     <span>You have an account? <a href="#login" class="text-primary changePage"><b>Signin Now!</b> </a> </span>
                 </div>
@@ -98,10 +98,9 @@
             </div>
             <div class="modal-body">
                 <span>We will send email for you to create a new password.</span>
-                <form action="/" method="post">
+                <form action="@Url.Action("CheckMailForgot")" method="post">
                     <div>
-                        <input type="email" name="" placeholder="Your Email" class="contact-input"
-                               required />
+                        <input type="email" name="mail" placeholder="Your Email" class="contact-input" required />
                         <input type="submit" name="name" class="btn btn-primary" value="Submit" />
                     </div>
 
@@ -113,6 +112,15 @@
 @section scripts{
     <script>
         $(function () {
+            var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2 = '@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2); //display notify
+            }
+
             $('.changePage').click(function () {
                 var href = $(this).attr("href");
                 $('#signInPage>div').hide();
@@ -132,6 +140,14 @@
                     x.type = "password";
                 }
             })
+            $('#btnRegis').click(function (e) {
+                var dobInput = new Date($('#dob').val());
+                var currYear = new Date().getFullYear();
+                if (currYear - dobInput.getFullYear() < 18) {
+                    alertify.error("Invalid date of birth, it must be over 18 years old!");
+                    e.preventDefault();
+                }
+            });
         });
         function myFunction() {
             var x = document.getElementById("w3lSender");

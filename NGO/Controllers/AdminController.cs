@@ -3,6 +3,8 @@ using NGO.Models.EntityModels;
 using NGO.Models.ViewModels;
 using System;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Web;
@@ -12,11 +14,69 @@ namespace NGO.Controllers
 {
     public class AdminController : Controller
     {
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["new"] = Repositories.GetQuesNew().Count;
+        }
         // GET: Admin
         public ActionResult Index()
         {
+            var ls = Repositories.GetDonateCurrentDay();
+            return View(ls);
+        }
+
+        #region Help Centre
+        public ActionResult UserQuestion()
+        {
+            ViewBag.newQ= Repositories.GetQuesNew();
+            ViewBag.reply = Repositories.GetQuesReplied();
             return View();
         }
+        public ActionResult QuesDetail(int id)
+        {
+            var model = Repositories.GetQuesByID(id);
+            return View(model);
+        }
+        public ActionResult AnswerQuestion(UserQuestion u)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var senderEmail = new MailAddress("dtmt1610@gmail.com", "NGO");
+                    var receiverEmail = new MailAddress(u.UserMail,u.UserName);
+                    var password = "dtmt16101302";
+                    var sub = "NGO support";
+                    var body = u.AnswerContent;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 25,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    {
+                        Subject = sub,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                    TempData["success"] = "Send mail to "+u.UserMail+" successfully!";
+                    Repositories.InsertAns(u.ID, u.AnswerContent);
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = "Something went wrong. Please try again!";
+                Console.WriteLine(e.Message);
+            }
+            return RedirectToAction("QuesDetail", new { id = u.ID });
+        }
+        #endregion
 
         #region Category
         public ActionResult Category()

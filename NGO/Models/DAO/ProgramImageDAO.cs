@@ -26,7 +26,12 @@ namespace NGO.Models.DAO
         public static List<ProgramImage> GetAllImg(int id)
         {
             NGOEntities e = new NGOEntities();
-            return e.ProgramImages.Where(w=>w.ProID==id).ToList();
+            return e.ProgramImages.Where(w => w.ProID == id).ToList();
+        }
+        public static List<ProgramImage> GetListImgMain()
+        {
+            NGOEntities e = new NGOEntities();
+            return e.ProgramImages.Where(w => w.ImgMain == true && w.Program.ProHide==false).ToList();
         }
         public static bool DelImg(int id)
         {
