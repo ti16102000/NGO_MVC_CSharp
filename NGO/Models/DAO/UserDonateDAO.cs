@@ -9,16 +9,22 @@ namespace NGO.Models.DAO
 {
     public class UserDonateDAO
     {
-        public static bool InsertUD(UserDonate ud)
+        public static int InsertUD(UserDonate ud)
         {
             NGOEntities e = new NGOEntities();
+            ud.TypeCard = "VISA";
             ud.DateCreate = DateTime.Now;
             e.UserDonates.Add(ud);
             if (e.SaveChanges() > 0)
             {
-                return true;
+                var donate = e.Donates.Find(ud.DonateID);
+                donate.TotalMoney += ud.Money;
+                var user = e.Users.Find(ud.UserID);
+                user.MoneyDonate += ud.Money;
+                e.SaveChanges();
+                return 1;
             }
-            return false;
+            return 0;
         }
         public static List<UserDonate> GetUDByDonateID(int id)
         {

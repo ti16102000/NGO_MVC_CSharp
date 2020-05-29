@@ -42,11 +42,11 @@
                             <td>@item.Category.CateName</td>
                             <td>@item.TotalMoney</td>
                             <td>
-                                <form action="" method="post">
-                                    <input type="hidden" value="@item.ID" name="ID" />
-                                    <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser"/>
-                                    <input type="number" name="name" value="" min="5" max="1000" required/>
-                                    <input type="submit" value="Donate" class="btn btn-default" id="btnDonate"/>
+                                <form action="@Url.Action("UserDonate")" method="post">
+                                    <input type="hidden" value="@item.ID" name="DonateID" />
+                                    <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser" />
+                                    <input type="number" name="Money" value="" min="5" max="1000" required />
+                                    <input type="submit" value="Donate" class="btn btn-default" id="btnDonate" />
                                 </form>
                             </td>
                             <td><a href="@Url.Action("DonateInfomation",new { id=item.ID})">Detail</a></td>
@@ -77,10 +77,10 @@
                             <td>@item.Category.CateName</td>
                             <td>@item.TotalMoney</td>
                             <td>
-                                <form action="" method="post">
-                                    <input type="hidden" value="@item.ID" name="ID" />
+                                <form action="@Url.Action("UserDonate")" method="post">
+                                    <input type="hidden" value="@item.ID" name="DonateID" />
                                     <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser" />
-                                    <input type="number" name="name" value="" min="5" max="1000" required />
+                                    <input type="number" name="Money" value="" min="5" max="1000" required />
                                     <input type="submit" value="Donate" class="btn btn-default" id="btnDonate" />
                                 </form>
                             </td>
@@ -124,12 +124,21 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(function () {
+            	var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2 = '@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2); //display notify
+            }
             $('#tableUpcoming').DataTable();
             $('#tableOngoing').DataTable();
             $('#tableEnded').DataTable();
-            $('#btnDonate').click(function () {
+            $('#btnDonate').click(function (e) {
                 if ($('#idUser').val() === "") {
                     alertify.error("Please login to donate!");
+                    e.preventDefault();
                 }
             });
         });

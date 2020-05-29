@@ -73,7 +73,7 @@
                 <h4 class="section-title">we want to here from you</h4>
             </div>
             <!-- contact form -->
-            <form action="" method="post">
+            <form action="@Url.Action("CreateQues")" method="post">
                 <div class="main-input">
                     <div>
                         <input type="text" name="UserName" id="w3lName" placeholder="Your Name" class="contact-input"
@@ -99,3 +99,17 @@
     </div>
 </section>
 <!-- //contact section -->
+@section scripts{
+    <script>
+        $(function () {
+            	var msg1 = '@TempData["success"]'
+            if (msg1 != '') {
+                alertify.success(msg1); //display notify
+            }
+            var msg2 = '@TempData["error"]'
+            if (msg2 != '') {
+                alertify.error(msg2); //display notify
+            }
+        });
+    </script>
+}

@@ -4,6 +4,7 @@ using NGO.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -43,6 +44,19 @@ namespace NGO.Controllers
             ViewBag.lsUD = Repositories.GetUDByDonateID(id);
             return View(model);
         }
+        public ActionResult UserDonate(UserDonateView u)
+        {
+            var donate = Repositories.GetDonateByID(u.DonateID);
+            if (donate.DonateStatus == 3)
+            {
+                TempData["error"] = "Sorry, this donate was over!";
+                return RedirectToAction("Donate");
+            }
+            u.DonateName = donate.DonateName;
+            Session["ud"] = u;
+            return RedirectToAction("PaymentWithPaypal","PayPal");
+
+        }
         #endregion
 
         #region Program
@@ -60,12 +74,16 @@ namespace NGO.Controllers
         }
         #endregion
 
+        #region About Us
         public ActionResult About()
         {
             List<Models.EntityModels.AboutUs> ls = Repositories.GetAUDisplay();
             return View(ls);
         }
 
+        #endregion
+
+        #region Contact Us
         public ActionResult Contact()
         {
             ContactView dataContact = null;
@@ -81,10 +99,27 @@ namespace NGO.Controllers
             }
             return View(dataContact);
         }
+        public ActionResult CreateQues(UserQuestion u)
+        {
+            if (Repositories.CreateQues(u) == true)
+            {
+                TempData["success"] = "Your request has been sent to us. We'll get back to you shortly!";
+            }
+            else
+            {
+                TempData["error"] = "Something went wrong. Please try again!";
+            }
+            return RedirectToAction("Contact");
+        }
+        #endregion
+
+        #region Our Partners
         public ActionResult Partner()
         {
-            return View();
+            var ls = Repositories.GetAllPartner().Where(w => w.PartnerActive == true).ToList();
+            return View(ls);
         }
+        #endregion
 
         #region Sign In & Sign Up
         public ActionResult SignIn()
@@ -192,6 +227,7 @@ namespace NGO.Controllers
                 if (Repositories.ForgetPwd(mail, newPwd) == true)
                 {
                     TempData["success"] = "Create new password successfully! Please login again!";
+                    Session.Remove("secret");
                     return View("SignIn");
                 }
                 else
@@ -234,6 +270,7 @@ namespace NGO.Controllers
         public ActionResult LogOut()
         {
             Response.Cookies["userID"].Expires = DateTime.Now.AddDays(-1);
+            Session.Remove("ID");
             return RedirectToAction("Index");
         }
         #endregion

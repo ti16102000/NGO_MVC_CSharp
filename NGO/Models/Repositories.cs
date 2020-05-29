@@ -239,7 +239,7 @@ namespace NGO.Models
         #endregion
 
         #region User Donate
-        public static bool InsertUD(UserDonate ud)
+        public static int InsertUD(UserDonate ud)
         {
             return UserDonateDAO.InsertUD(ud);
         }

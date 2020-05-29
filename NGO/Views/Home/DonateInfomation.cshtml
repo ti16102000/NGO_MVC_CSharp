@@ -32,14 +32,14 @@
                 <h5>Total Money Donate: <b>@Model.TotalMoney$</b> </h5>
                 @if (Model.DonateStatus != 3)
                 {
-                    <form action="#" method="post">
+                    <form action="@Url.Action("UserDonate")" method="post">
                         <div class="forms-29-form">
                             <div class="form-group">
                                 <label class="input__label">The amount you want to raise funds:</label>
-                                <input type="hidden" value="@Model.ID" name="ID" />
+                                <input type="hidden" value="@Model.ID" name="DonateID" />
                                 <input type="hidden" value="@Session["ID"]" name="UserID" id="idUser" />
-                                <input type="number" name="name" placeholder="5 - 1000$" max="1000" min="5" required> &nbsp;
-                                <button type="submit" class="btn btn-primary" id="btnDonate">Donate</button>
+                                <input type="number" name="Money" value="" min="5" max="1000" required /> &nbsp;
+                                <input type="submit" value="Donate" class="btn btn-default" id="btnDonate" />
                             </div>
 
                         </div>

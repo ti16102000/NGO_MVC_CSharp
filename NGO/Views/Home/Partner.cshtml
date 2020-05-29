@@ -1,4 +1,4 @@
-﻿
+﻿@model List<NGO.Models.EntityModels.Partner>
 @{
     ViewBag.Title = "Partner";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,9 +26,11 @@
                 </div>
             </div>
             <div class="row" id="partImg">
-                <a href="#"><img src="~/Content/assets/images/about.png" class="img-thumbnail" alt="Cinque Terre"></a>
-                <a href="#"><img src="~/Content/assets/images/about.png" class="img-thumbnail" alt="Cinque Terre"></a>
-                <a href="#"><img src="~/Content/assets/images/about.png" class="img-thumbnail" alt="Cinque Terre"></a>
+                @foreach (var item in Model)
+                {
+                    <a href="@item.PartnerLink" target="_blank"><img src="~/Images/@item.PartnerImage" class="img-thumbnail"></a>
+
+                }
             </div>
             
         </div>
