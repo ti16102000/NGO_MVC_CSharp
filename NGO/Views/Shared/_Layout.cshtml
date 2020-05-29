@@ -104,9 +104,9 @@
                         <p class="mb-4">
                             You can send mail to invite other friends to join the NGOs and raise funds together.
                         </p>
-                        <form class="newsletter-form">
-                            <input class="input-rounded" type="text" required="" placeholder="Enter Your Friend's Email Address">
-                            <button type="submit" title="Subscribe" class="btn btn-primary btn-style" name="submit" value="Submit">
+                        <form action="@Url.Action("Invite")" method="post" class="newsletter-form">
+                            <input class="input-rounded" type="text" name="email" required placeholder="Enter Your Friend's Email Address">
+                            <button type="submit" title="Subscribe" class="btn btn-primary btn-style" name="submit" value="Submit" id="btnInvite">
                                 Invite
                             </button>
                         </form>
@@ -156,6 +156,13 @@
     <script src="@Url.Content("~/content/")assets/js/owl.carousel.js"></script>
     <script>
         $(document).ready(function () {
+            $('#btnInvite').click(function (e) {
+                if ('@Session["ID"]' === "") {
+                    alertify.error("Please login to invite your friend!");
+                    e.preventDefault();
+                }
+            });
+            
             var owl = $('.owl-carousel');
             owl.owlCarousel({
                 margin: 10,

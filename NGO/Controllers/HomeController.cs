@@ -274,5 +274,55 @@ namespace NGO.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        public ActionResult Invite(string email)
+        {
+            int id = int.Parse(Session["ID"].ToString());
+            var userLogin = Repositories.GetUserByID(id);
+            var user = Repositories.GetUserByMail(email);
+            if (user != null)
+            {
+                TempData["error"] = $"{email} joined the NGO";
+            }
+            else
+            {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var senderEmail = new MailAddress("dtmt1610@gmail.com", "NGO");
+                        var receiverEmail = new MailAddress(email, "User");
+                        var password = "dtmt16101302";
+                        var sub = "NGO support";
+                        var body = $"{userLogin.UserName} ({userLogin.UserMail}) invited you to join the NGO."+"\n"+ "Link to our website: " + "http://localhost:53729/Home/Index";
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 25,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(senderEmail.Address, password)
+                        };
+                        using (var mess = new MailMessage(senderEmail, receiverEmail)
+                        {
+                            Subject = sub,
+                            Body = body
+                        })
+                        {
+                            smtp.Send(mess);
+                        }
+                        TempData["success"] = $"We sent an invitation email to {email}!";
+                    }
+                }
+                catch (Exception e)
+                {
+                    TempData["error"] = "Something went wrong. Please try again!";
+                    Console.WriteLine(e.Message);
+                }
+                
+            }
+            return RedirectToAction("Contact");
+        }
     }
 }
