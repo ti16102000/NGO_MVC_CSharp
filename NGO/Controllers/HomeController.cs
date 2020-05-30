@@ -237,6 +237,16 @@ namespace NGO.Controllers
             }
             return RedirectToAction("ForgotPwd", new { mail = mail });
         }
+        
+        public ActionResult LogOut()
+        {
+            Response.Cookies["userID"].Expires = DateTime.Now.AddDays(-1);
+            Session.Remove("ID");
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region personal infomation
         public ActionResult PersonalInfo(int id)
         {
             var model = Repositories.GetUserByID(id);
@@ -255,7 +265,7 @@ namespace NGO.Controllers
             }
             return RedirectToAction("PersonalInfo", new { id = u.ID });
         }
-        public ActionResult ChangePwd(string mail,string oldPwd,string newPwd)
+        public ActionResult ChangePwd(string mail, string oldPwd, string newPwd)
         {
             if (Repositories.ChangePwd(mail, oldPwd, newPwd) == true)
             {
@@ -266,12 +276,6 @@ namespace NGO.Controllers
                 TempData["error"] = "Change password failed!";
             }
             return RedirectToAction("PersonalInfo", new { id = Session["ID"] });
-        }
-        public ActionResult LogOut()
-        {
-            Response.Cookies["userID"].Expires = DateTime.Now.AddDays(-1);
-            Session.Remove("ID");
-            return RedirectToAction("Index");
         }
         #endregion
 

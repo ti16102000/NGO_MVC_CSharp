@@ -55,8 +55,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Hide:</label>
-                                <input type="checkbox" id="cbHide" style="width:20px;height:20px;" />
-                                <input type="hidden" name="DonateHide" id="cbHideValue" value="@(Model.DonateHide==true?"True":"False")" />
+                                @if (lsUD.Count == 0 || Model.DonateStatus == 3)
+                                {
+                                    <input type="checkbox" id="cbHide" style="width:20px;height:20px;" />
+                                    <input type="hidden" name="DonateHide" id="cbHideValue" value="@(Model.DonateHide==true?"True":"False")" />
+                                }
+                                else
+                                {
+                                    <span>Can't hide because someone has donated</span>
+                                }
+
                             </div>
                             <button type="submit" name="submit" class="btn btn-info" id="btnSubmit">Submit</button>
                         </div>

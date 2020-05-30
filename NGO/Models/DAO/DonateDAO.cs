@@ -78,11 +78,11 @@ namespace NGO.Models.DAO
             item.EndDay = d.EndDay;
             item.DonateHide = d.DonateHide;
             item.CateID = d.CateID;
-            if (item.DonateStatus == 1 && d.StartDay <= DateTime.Now)
+            if (d.StartDay<=DateTime.Now && d.EndDay>=DateTime.Now)
             {
                 d.DonateStatus = 2;
             }
-            else if (item.DonateStatus == 2 && d.EndDay < DateTime.Now)
+            else if (d.EndDay < DateTime.Now)
             {
                 d.DonateStatus = 3;
             }else if (d.StartDay > DateTime.Now)
